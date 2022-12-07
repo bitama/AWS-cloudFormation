@@ -1,0 +1,36 @@
+#s3 Bucket
+#s3 Bucket policy
+
+#AWS::S3::Bucket
+#AWS::S3::BucketPolicy
+# SYNTAX
+
+#Resources:
+#  logical ID:
+#    Type:
+#    properties:
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: "please provide the bucket name"
+
+Resources:
+  s3bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+    S3BUCKETPOLICY:
+      Type: "AWS::S3::BucketPolicy"
+      Properties:
+        Bucket: !Ref s3bucket
+        PolicyDocument:
+          Id: Mypolicy
+          Version: "2012-10-17"
+          Statement:
+            - sid: mypolicydoc
+              Action: "S3:ListBucket"
+              Effect: Allow
+              Resource: !Sub "arn:aws:s3:::${s3bucket}"
+              Principal:
+                AWS: !Join ["", ["arn:aws:iam::", 068159783898, ":root"]]
